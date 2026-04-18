@@ -1,30 +1,56 @@
 # Hawker Stall Revenue Analysis
 
-Exploratory data analysis of daily revenue across Singapore hawker stalls. The project investigates how pricing, location, cuisine type, competition, and stall age influence revenue — uncovering a Simpson's Paradox in the price–revenue relationship and resolving it through multiple regression and Monte Carlo simulation.
+A data-driven investigation into hawker stall revenue from the perspective of a Malay food stall owner at an HDB hawker centre in Singapore. The analysis follows a discovery-driven narrative — each finding raises the next question — uncovering a Simpson's Paradox in the price-revenue relationship and resolving it through regression and Monte Carlo simulation to arrive at a combined price increase + social media strategy.
+
+## Research Flow
+
+Each discovery's finding motivates the next question:
+
+```mermaid
+flowchart TD
+    Problem["Business Problem\nMalay stall revenue declining"]
+    D1["Discovery 1: Where Do I Stand?\nDescriptive Stats + Cov/Cor"]
+    D1finding["Finding: Simpson's Paradox --\nlocation confounds price-revenue"]
+    D2["Discovery 2: Is Location Effect Real?\nCI + Hypothesis Testing + Regression"]
+    D2finding["Finding: HDB stalls earn\nsignificantly less"]
+    D3["Discovery 3: True Revenue Drivers\nCorrelation Matrix + Multiple Regression"]
+    D3finding["Finding: Price hurts revenue,\nbut social media boosts it"]
+    D4["Discovery 4: Price + Social Media\nMonte Carlo Simulation"]
+    Conclusion["Conclusion\nRaise price + invest in social media"]
+
+    Problem --> D1
+    D1 --> D1finding
+    D1finding -->|"Is this gap\nstatistically real?"| D2
+    D2 --> D2finding
+    D2finding -->|"Is location the\nonly factor?"| D3
+    D3 --> D3finding
+    D3finding -->|"Can price increase +\nsocial media work together?"| D4
+    D4 --> Conclusion
+```
 
 ## Discoveries
 
-| # | Topic | Key Question |
-|---|-------|--------------|
-| 1 | Revenue Landscape | What does the distribution of daily revenue look like across locations and cuisines? |
-| 2 | Price vs Revenue Paradox | Why does a naive correlation suggest higher prices hurt revenue? |
-| 3 | Multiple Regression | After controlling for confounders, what is the true price effect? |
-| 4 | Hypothesis Testing | Is the price coefficient statistically significant? |
-| 5 | Monte Carlo Simulation | What happens to expected revenue if a stall raises prices by $1–$2? |
+| # | Topic | Key Question | Methods (Course Weeks) |
+|---|-------|--------------|----------------------|
+| 1 | Where Do I Stand? | How do Malay stalls perform, and does location confound the price-revenue relationship? | Descriptive statistics, histogram, boxplot (Wk 4, 6), covariance and correlation (Wk 5), conditional probability / Simpson's Paradox (Wk 2, 5) |
+| 2 | Is the Location Effect Real? | Can we prove statistically that HDB stalls earn less? | 95% CI with t-distribution (Wk 7), one-sample hypothesis test (Wk 8-9), regression with dummy variables (Wk 10) |
+| 3 | True Revenue Drivers | After controlling for all factors, what matters most? | Correlation matrix (Wk 5), multiple regression with log transform (Wk 10-11), R-squared (Wk 11), hypothesis tests on coefficients (Wk 8-9) |
+| 4 | Price + Social Media | Can a modest price increase paired with social media investment boost net revenue? | Monte Carlo simulation (Wk 12), sampling distribution (Wk 6), confidence intervals from simulation (Wk 7, 12) |
 
 ## Dataset
 
-`Hawker Data Statistics.csv` — 500 observations with the following variables:
+`Hawker Data Statistics.csv` — 220 Malay stall observations with the following variables:
 
 | Variable | Type | Description |
 |----------|------|-------------|
 | `daily_revenue` | numeric | Daily revenue in SGD |
 | `avg_price` | numeric | Average dish price in SGD |
-| `location_type` | categorical | CBD or HDB |
-| `cuisine_type` | categorical | Chinese, Malay, Indian, or Western |
+| `location_type` | categorical | CBD, HDB, or Tourist area |
 | `competition` | integer | Number of nearby competing stalls |
 | `day_type` | categorical | Weekday or Weekend |
 | `stall_age` | numeric | Years the stall has been operating |
+| `has_social_media` | categorical | Whether the stall uses social media (Yes/No) |
+| `social_media_spend` | numeric | Monthly social media marketing spend in SGD |
 
 ## Prerequisites
 
@@ -79,7 +105,7 @@ Open `discovery.ipynb` and run all cells. The notebook reads `Hawker Data Statis
 ```
 hawker-data-analysis/
 ├── discovery.ipynb              # Main analysis notebook (R kernel)
-├── Hawker Data Statistics.csv   # Source dataset (500 rows)
+├── Hawker Data Statistics.csv   # Source dataset (220 Malay stalls)
 ├── slides/                      # Weekly lecture materials
 │   ├── Week 1  – Probability measure
 │   ├── Week 2  – Conditional probabilities
